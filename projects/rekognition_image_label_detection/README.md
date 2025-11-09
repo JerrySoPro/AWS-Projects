@@ -58,16 +58,19 @@ python -m venv .venv
 ### 3. Activate Virtual Environment
 
 **Windows PowerShell:**
+
 ```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
 **Windows Command Prompt:**
+
 ```cmd
 .venv\Scripts\activate.bat
 ```
 
 **Linux/macOS:**
+
 ```bash
 source .venv/bin/activate
 ```
@@ -79,6 +82,7 @@ pip install -r requirements.txt
 ```
 
 The `requirements.txt` includes:
+
 - `boto3>=1.26.0` - AWS SDK for Python
 - `botocore>=1.29.0` - Low-level interface to AWS services
 
@@ -126,6 +130,7 @@ aws s3 cp ./images/ s3://my-rekognition-images/ --recursive --exclude "*" --incl
 Create an IAM user or role with the following permissions:
 
 **Required Policies:**
+
 - `AmazonS3ReadOnlyAccess` - To read images from S3
 - `AmazonRekognitionFullAccess` - To use Rekognition DetectLabels API
 
@@ -155,6 +160,7 @@ aws configure
 ```
 
 Enter your credentials when prompted:
+
 ```
 AWS Access Key ID: YOUR_ACCESS_KEY_ID
 AWS Secret Access Key: YOUR_SECRET_ACCESS_KEY
@@ -165,6 +171,7 @@ Default output format: json
 #### Option 2: Environment Variables
 
 **Windows PowerShell:**
+
 ```powershell
 $env:AWS_ACCESS_KEY_ID="YOUR_ACCESS_KEY_ID"
 $env:AWS_SECRET_ACCESS_KEY="YOUR_SECRET_ACCESS_KEY"
@@ -172,6 +179,7 @@ $env:AWS_DEFAULT_REGION="us-east-1"
 ```
 
 **Linux/macOS:**
+
 ```bash
 export AWS_ACCESS_KEY_ID="YOUR_ACCESS_KEY_ID"
 export AWS_SECRET_ACCESS_KEY="YOUR_SECRET_ACCESS_KEY"
@@ -202,20 +210,22 @@ The script can be configured using environment variables:
 
 ### Environment Variables
 
-| Variable | Description | Default Value | Required |
-|----------|-------------|---------------|----------|
-| `REKOGNITION_BUCKET` | S3 bucket name containing images | `project-rekognition-s3` | No |
-| `AWS_REGION` | AWS region for S3 and Rekognition | `us-east-1` | No |
+| Variable             | Description                       | Default Value            | Required |
+| -------------------- | --------------------------------- | ------------------------ | -------- |
+| `REKOGNITION_BUCKET` | S3 bucket name containing images  | `project-rekognition-s3` | No       |
+| `AWS_REGION`         | AWS region for S3 and Rekognition | `us-east-1`              | No       |
 
 ### Setting Environment Variables
 
 **Windows PowerShell:**
+
 ```powershell
 $env:REKOGNITION_BUCKET="my-rekognition-images"
 $env:AWS_REGION="us-west-2"
 ```
 
 **Linux/macOS:**
+
 ```bash
 export REKOGNITION_BUCKET="my-rekognition-images"
 export AWS_REGION="us-west-2"
@@ -353,6 +363,7 @@ pytest tests/test_main.py
 ### Test Coverage
 
 The tests cover:
+
 - Label detection functionality with mocked Boto3 responses
 - Proper handling of API responses
 - Count verification for detected labels
@@ -364,11 +375,13 @@ The tests cover:
 #### 1. NoCredentialsError
 
 **Error:**
+
 ```
 botocore.exceptions.NoCredentialsError: Unable to locate credentials
 ```
 
 **Solution:**
+
 - Verify AWS credentials are configured correctly
 - Run `aws configure` to set up credentials
 - Check that `~/.aws/credentials` file exists and contains valid credentials
@@ -377,11 +390,13 @@ botocore.exceptions.NoCredentialsError: Unable to locate credentials
 #### 2. AccessDeniedException
 
 **Error:**
+
 ```
 botocore.errorfactory.AccessDeniedException: User is not authorized
 ```
 
 **Solution:**
+
 - Verify IAM user has `AmazonRekognitionFullAccess` policy
 - Verify IAM user has `AmazonS3ReadOnlyAccess` policy
 - Check that the S3 bucket policy allows read access
@@ -390,11 +405,13 @@ botocore.errorfactory.AccessDeniedException: User is not authorized
 #### 3. NoSuchBucket
 
 **Error:**
+
 ```
 botocore.errorfactory.NoSuchBucket: The specified bucket does not exist
 ```
 
 **Solution:**
+
 - Verify bucket name is spelled correctly
 - Check that the bucket exists in the specified region
 - Ensure the bucket name in environment variable or script matches the actual bucket
@@ -402,11 +419,13 @@ botocore.errorfactory.NoSuchBucket: The specified bucket does not exist
 #### 4. InvalidImageFormatException
 
 **Error:**
+
 ```
 botocore.errorfactory.InvalidImageFormatException: Request has invalid image format
 ```
 
 **Solution:**
+
 - Ensure images are valid JPEG or PNG format
 - Check that files are not corrupted
 - Verify file extensions match actual format
@@ -415,13 +434,15 @@ botocore.errorfactory.InvalidImageFormatException: Request has invalid image for
 #### 5. No Images Found
 
 **Output:**
+
 ```
 No images found in the bucket.
 ```
 
 **Solution:**
+
 - Verify images are uploaded to S3
-- Check that images have `.jpg`, `.jpeg`, or `.png` extensions
+- Check that images have `.jpg`, `.jpeg`, or `.png` extensions (no other extensions are supported)
 - Ensure images are in the root of the bucket (script doesn't search subdirectories)
 - List bucket contents: `aws s3 ls s3://your-bucket-name/`
 
@@ -450,20 +471,24 @@ aws rekognition detect-labels --image "S3Object={Bucket=your-bucket-name,Name=yo
 ### AWS Free Tier
 
 **First 12 Months:**
+
 - S3: 5 GB of standard storage
 - Rekognition: 5,000 images processed per month
 
 **Always Free:**
+
 - None for Rekognition (limited to first 12 months)
 
 ### Pricing After Free Tier
 
 **S3 (us-east-1):**
+
 - Storage: ~$0.023 per GB per month
 - PUT/POST requests: $0.005 per 1,000 requests
 - GET requests: $0.0004 per 1,000 requests
 
 **Rekognition:**
+
 - Image analysis: $1.00 per 1,000 images
 - First 1 million images per month: $1.00 per 1,000
 - Over 1 million: reduced pricing
@@ -471,6 +496,7 @@ aws rekognition detect-labels --image "S3Object={Bucket=your-bucket-name,Name=yo
 ### Example Cost Calculation
 
 Processing 1,000 images per month:
+
 - Rekognition: $1.00
 - S3 storage (1 GB): $0.023
 - S3 GET requests: $0.0004
@@ -501,12 +527,14 @@ rekognition_image_label_detection/
 ### Key Functions in `src/main.py`
 
 **`get_all_images_from_bucket(bucket, region_name)`**
+
 - Lists all objects in the S3 bucket
 - Filters for JPEG and PNG files
 - Returns list of image keys
 - Handles errors gracefully
 
 **`detect_labels(photo, bucket, region_name, max_labels)`**
+
 - Calls AWS Rekognition DetectLabels API
 - Processes a single image
 - Displays detailed label information
@@ -514,6 +542,7 @@ rekognition_image_label_detection/
 - Includes comprehensive error handling
 
 **`main()`**
+
 - Entry point of the script
 - Reads configuration from environment variables
 - Orchestrates the image processing workflow
@@ -522,15 +551,18 @@ rekognition_image_label_detection/
 ## Security Best Practices
 
 1. **Never commit credentials to version control**
+
    - AWS credentials are excluded via `.gitignore`
    - Use environment variables or AWS credentials file
 
 2. **Use IAM roles with least privilege**
+
    - Grant only necessary permissions
    - Avoid using root account credentials
    - Rotate access keys regularly
 
 3. **Enable S3 bucket encryption**
+
    ```bash
    aws s3api put-bucket-encryption --bucket your-bucket-name \
      --server-side-encryption-configuration \
@@ -538,6 +570,7 @@ rekognition_image_label_detection/
    ```
 
 4. **Monitor AWS usage**
+
    - Set up CloudWatch alarms
    - Review CloudTrail logs
    - Use AWS Cost Explorer
@@ -557,6 +590,7 @@ rekognition_image_label_detection/
 ## Support
 
 For issues or questions:
+
 - Check the [Troubleshooting](#troubleshooting) section
 - Review AWS service documentation
 - Open an issue in the parent repository
