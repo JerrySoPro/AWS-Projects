@@ -1,22 +1,81 @@
-# AWS Rekognition Image Label Detection
+# AWS Mini Projects
+
+A collection of AWS service demonstrations and mini-projects organized in a single repository.
+
+## 📋 Repository Structure
+
+This repository follows a multi-project layout where each mini-project is self-contained under the `projects/` directory:
+
+```
+├── projects/
+│   ├── rekognition_image_label_detection/
+│   │   ├── src/
+│   │   ├── tests/
+│   │   ├── requirements.txt
+│   │   └── README.md
+│   └── [future projects...]
+├── PROJECTS.md          # Quick index of all projects
+└── README.md            # This file
+```
+
+## 🚀 Current Projects
+
+### 1. Rekognition Image Label Detection
+
+**Location**: `projects/rekognition_image_label_detection/`
 
 A Python script that automatically detects labels in images stored in an AWS S3 bucket using Amazon Rekognition service.
 
-## 📋 Table of Contents
+**Features**:
 
-- [Overview](#overview)
-- [Features](#features)
-- [Prerequisites](#prerequisites)
+- Batch processing of all images in an S3 bucket
+- Error handling for invalid images
+- Detailed output with confidence scores and bounding boxes
+- Summary report with success/failure statistics
+- Supports JPEG and PNG formats
+
+**Quick start**:
+
+```powershell
+Set-Location -LiteralPath "./projects/rekognition_image_label_detection/src"
+python main.py
+```
+
+See the [project README](projects/rekognition_image_label_detection/README.md) for detailed setup instructions.
+
+---
+
+## 📦 General Prerequisites
+
+- Python 3.7 or higher
+- An AWS account with appropriate IAM permissions
+- AWS CLI configured (or credentials via environment variables)
+- Basic knowledge of AWS services
+
+## 🚀 Getting Started
+
+Each project contains:
+
+- `README.md` — Project-specific documentation and setup
+- `requirements.txt` — Python dependencies
+- `src/` — Source code
+- `tests/` — Unit tests (when applicable)
+- `scripts/` — Helper scripts (optional)
+
+Refer to each project's README for detailed instructions.
+
+---
+
+## 📋 Original Documentation (for Rekognition project)
+
+### Table of Contents
+
 - [AWS Setup](#aws-setup)
   - [Step 1: Create an AWS Account](#step-1-create-an-aws-account)
   - [Step 2: Create an S3 Bucket](#step-2-create-an-s3-bucket)
   - [Step 3: Upload Images](#step-3-upload-images-to-s3)
   - [Step 4: Create IAM User and Access Keys](#step-4-create-iam-user-and-access-keys)
   - [Step 5: Configure AWS CLI](#step-5-configure-aws-cli)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Output Example](#output-example)
 - [Troubleshooting](#troubleshooting)
 - [Cost Considerations](#cost-considerations)
 - [License](#license)
@@ -31,24 +90,9 @@ This script automatically:
 - Provides confidence scores and bounding box coordinates
 - Generates a comprehensive summary report
 
-## ✨ Features
+---
 
-- **Batch Processing**: Automatically processes all images in an S3 bucket
-- **Error Handling**: Gracefully handles invalid images and continues processing
-- **Detailed Output**: Shows labels, confidence scores, bounding boxes, and parent categories
-- **Summary Report**: Displays success/failure statistics
-- **Supported Formats**: JPEG and PNG images
-
-## 📦 Prerequisites
-
-Before you begin, ensure you have:
-
-- Python 3.7 or higher installed
-- An AWS account
-- Basic knowledge of AWS services
-- Internet connection
-
-## 🚀 AWS Setup
+## 🚀 AWS Setup (for Rekognition project)
 
 ### Step 1: Create an AWS Account
 
@@ -219,81 +263,30 @@ region = us-east-1
 output = json
 ```
 
-## Installation
+---
 
-1. **Clone the repository**
+## 📖 Per-Project Setup (Rekognition)
 
-```bash
-git clone https://github.com/JerrySoPro/aws-rekognition-label-detection.git
-cd aws-rekognition-label-detection
-```
+For the Rekognition Image Label Detection project, see the [project README](projects/rekognition_image_label_detection/README.md) for:
 
-2. **Install required Python packages**
+- Installation steps
+- Configuration (bucket name, region)
+- Usage examples
+- Output samples
 
-```bash
-pip install boto3
-```
-
-Or using requirements.txt:
-
-```bash
-pip install -r requirements.txt
-```
-
-## Configuration
-
-1. **Open the script file** (`AWS rekognition.py`)
-
-2. **Update the bucket name** in the `main()` function:
-
-```python
-def main():
-    bucket='project-rekognition-s3'  # Change this to your bucket name
-```
-
-3. **Update the region** (if different from us-east-1):
-
-```python
-# In get_all_images_from_bucket function:
-s3_client = boto3.client('s3', region_name='us-east-1')  # Change region here
-
-# In detect_labels function:
-client=boto3.client('rekognition', region_name='us-east-1')  # Change region here
-```
-
-4. **Adjust MaxLabels** (optional):
-
-```python
-response = client.detect_labels(
-    Image={'S3Object':{'Bucket':bucket,'Name':photo}},
-    MaxLabels=10  # Change to get more or fewer labels
-)
-```
-
-## Usage
-
-### Run the Script
-
-```bash
-python "AWS rekognition.py"
-```
-
-Or on Windows:
+Quick reference for running the project:
 
 ```powershell
-python "AWS rekognition.py"
+# Navigate to the project source folder
+Set-Location -LiteralPath "./projects/rekognition_image_label_detection/src"
+
+# Run the script (ensure AWS credentials are configured)
+python main.py
 ```
 
-### What Happens
+---
 
-1. Script connects to your S3 bucket
-2. Lists all JPEG and PNG images
-3. Processes each image with AWS Rekognition
-4. Displays detected labels with confidence scores
-5. Shows bounding box coordinates for object instances
-6. Generates a summary report
-
-## Output Example
+## Output Example (Rekognition)
 
 ```
 Fetching images from bucket: project-rekognition-s3
